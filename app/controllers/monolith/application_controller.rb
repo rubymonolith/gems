@@ -57,35 +57,36 @@ class Monolith::ApplicationController < ActionController::Base
   class View < BaseView
     def around_template
       super do
-        div(class: "min-h-screen") do
-          render_nav
-          div(class: "container mx-auto") do
+        div(class: "flex min-h-screen") do
+          render_sidebar
+          div(class: "flex-1 p-6") do
             yield self if block_given?
           end
         end
       end
     end
 
-    def render_nav
-      nav(class: "border-b mb-6") do
-        div(class: "container mx-auto px-6 py-4") do
-          div(class: "flex items-center gap-6") do
-            a(href: url_for(controller: "/monolith/emails", action: :index), class: "flex items-center gap-2") do
-              img(src: asset_path("monolith/logo.svg"), alt: "Monolith", class: "h-8")
-            end
-            nav_link "Emails", controller: "/monolith/emails", action: :index
-            nav_link "Tables", controller: "/monolith/tables", action: :index
-            nav_link "Gems", controller: "/monolith/gems", action: :index
-            nav_link "Routes", controller: "/monolith/routes", action: :index
-            nav_link "Models", controller: "/monolith/models", action: :index
-            nav_link "Generators", controller: "/monolith/generators", action: :index
+    def render_sidebar
+      aside(class: "w-64 bg-base-200 p-4") do
+        div(class: "mb-6") do
+          a(href: url_for(controller: "/monolith/home", action: :show)) do
+            img(src: asset_path("monolith/logo.svg"), alt: "Monolith", class: "h-12")
           end
+        end
+
+        ul(class: "menu bg-base-200 rounded-box w-full") do
+          li { nav_link "Emails", controller: "/monolith/emails", action: :index }
+          li { nav_link "Tables", controller: "/monolith/tables", action: :index }
+          li { nav_link "Gems", controller: "/monolith/gems", action: :index }
+          li { nav_link "Routes", controller: "/monolith/routes", action: :index }
+          li { nav_link "Models", controller: "/monolith/models", action: :index }
+          li { nav_link "Generators", controller: "/monolith/generators", action: :index }
         end
       end
     end
 
     def nav_link(text, **to)
-      a(href: url_for(to), class: "underline hover:no-underline") { text }
+      a(href: url_for(to)) { text }
     end
 
     def ext_link(href, text = nil)
