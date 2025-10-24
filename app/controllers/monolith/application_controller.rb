@@ -1,7 +1,7 @@
 class Monolith::ApplicationController < ActionController::Base
   layout false
 
-  # # include Superview::Actions
+  include Superview::Actions
   # # include Superform::Rails::StrongParameters
   # include ExceptionHandler
 
