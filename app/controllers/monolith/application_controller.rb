@@ -1,3 +1,5 @@
+require 'superview'
+
 class Monolith::ApplicationController < ActionController::Base
   layout false
 

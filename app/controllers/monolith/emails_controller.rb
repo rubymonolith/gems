@@ -2,7 +2,7 @@ module Monolith
   class EmailsController < ApplicationController
     before_action do
       Rails.application.eager_load!
-      @emails = ApplicationEmail.descendants
+      # @emails = ApplicationEmail.descendants
 
       if params.key? :id
         @email = @emails.find { it.to_s == params.fetch(:id) }

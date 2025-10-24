@@ -1,5 +1,5 @@
 Monolith::Engine.routes.draw do
-  root to: "emails#index"
+  root to: "home#show"
 
   resources :emails, only: [:index, :show]
   resources :tables, only: [:index, :show]
@@ -11,6 +11,6 @@ Monolith::Engine.routes.draw do
       post :create
     end
   end
-  
+
   get "/exceptions/:id", to: "exceptions#show", as: :exception
 end
