@@ -2,6 +2,16 @@
 
 A quick way to spin up a [Monlithic Rails](https://rubymonolith.org) application. [Rocketship](https://rocketship.io/) uses Monolith when building new SaaS applications.
 
+Monolith includes a Rails engine with development tools for inspecting your application:
+- Email previews
+- Database table browser
+- Installed gems viewer
+- Route inspector
+- Model inspector
+- Rails generators interface
+
+The engine automatically mounts at `http://localhost:3000/monolith` in development mode.
+
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
@@ -18,13 +28,15 @@ Monolith creates a new Rails project with the dependencies needed to be producti
 
 ## Existing Rails applications
 
-The gem may also be installed for existing Rails applications by executing:
+Add to your Gemfile:
 
-    $ bundle add rubymonolith
+```ruby
+gem 'rubymonolith'
+```
 
-Then run the following to see the available tasks:
+Run `bundle install` and the engine automatically mounts at `http://localhost:3000/monolith` in development.
 
-    $ rails generate --help
+To see available generators, run `rails generate --help`.
 
 ## Development
 

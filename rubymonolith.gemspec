@@ -30,4 +30,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "rails", ">= 7.0.0"
   spec.add_dependency "thor", "~> 1.0"
+  spec.add_dependency "phlex-rails", "~> 2.0"
 end
