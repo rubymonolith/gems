@@ -1,5 +1,9 @@
 @import "tailwindcss";
-@import "./daisyui.css";
+
+@plugin "@tailwindcss/forms";
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark;
+}
 
 @theme {
   --font-family-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";

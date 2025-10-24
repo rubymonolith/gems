@@ -59,7 +59,7 @@ class Monolith::ApplicationController < ActionController::Base
       super do
         div(class: "flex min-h-screen") do
           render_sidebar
-          div(class: "flex-1 p-6") do
+          div(class: "flex-1 p-6 overflow-hidden") do
             yield self if block_given?
           end
         end
@@ -67,20 +67,27 @@ class Monolith::ApplicationController < ActionController::Base
     end
 
     def render_sidebar
-      aside(class: "w-64 bg-base-200 p-4") do
+      aside(class: "w-64 shrink-0 bg-base-200 p-4") do
         div(class: "mb-6") do
           a(href: url_for(controller: "/monolith/home", action: :show)) do
-            img(src: asset_path("monolith/logo.svg"), alt: "Monolith", class: "h-12")
+            img(src: asset_path("monolith/logo.svg"), alt: "Monolith", class: "dark:invert h-24 w-auto")
           end
         end
 
         ul(class: "menu bg-base-200 rounded-box w-full") do
-          li { nav_link "Emails", controller: "/monolith/emails", action: :index }
-          li { nav_link "Tables", controller: "/monolith/tables", action: :index }
+          # li { nav_link "Emails", controller: "/monolith/emails", action: :index }
           li { nav_link "Gems", controller: "/monolith/gems", action: :index }
           li { nav_link "Routes", controller: "/monolith/routes", action: :index }
-          li { nav_link "Models", controller: "/monolith/models", action: :index }
           li { nav_link "Generators", controller: "/monolith/generators", action: :index }
+          li do
+            details(open: true) do
+              summary { "Data" }
+              ul do
+                li { nav_link "Models", controller: "/monolith/models", action: :index }
+                li { nav_link "Tables", controller: "/monolith/tables", action: :index }
+              end
+            end
+          end
         end
       end
     end
@@ -91,7 +98,7 @@ class Monolith::ApplicationController < ActionController::Base
 
     def ext_link(href, text = nil)
       return em { "—" } if href.nil?
-      a(href:, target: "_blank", rel: "noopener") { text || href }
+      a(href:, target: "_blank", rel: "noopener", class: "link") { text || href }
     end
   end
 end
