@@ -34,7 +34,7 @@ class Monolith::ApplicationController < ActionController::Base
           meta name: "apple-mobile-web-app-status-bar-style", content: "black-translucent"
           csp_meta_tag
           csrf_meta_tags
-          stylesheet_link_tag "tailwind", data_turbo_track: "reload"
+          stylesheet_link_tag "monolith/tailwind", data_turbo_track: "reload"
           javascript_importmap_tags
           render @opengraph
         end

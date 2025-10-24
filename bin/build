@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+
+puts "Building Tailwind CSS for Monolith engine..."
+system "bundle exec tailwindcss --input app/assets/stylesheets/monolith/application.tailwind.css --output app/assets/builds/monolith/tailwind.css --minify"
+puts "Done! CSS compiled to app/assets/builds/monolith/tailwind.css"

@@ -1,0 +1,2 @@
+web: cd spec/dummy && bin/rails server
+css: rake monolith:tailwind:watch

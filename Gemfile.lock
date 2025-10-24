@@ -198,6 +198,11 @@ GEM
     sqlite3 (2.7.4-arm64-darwin)
     sqlite3 (2.7.4-x86_64-darwin)
     stringio (3.1.7)
+    tailwindcss-rails (4.3.0)
+      railties (>= 7.0.0)
+      tailwindcss-ruby (~> 4.0)
+    tailwindcss-ruby (4.1.13-arm64-darwin)
+    tailwindcss-ruby (4.1.13-x86_64-darwin)
     thor (1.4.0)
     timeout (0.4.3)
     tsort (0.2.0)
@@ -223,6 +228,7 @@ DEPENDENCIES
   rubymonolith!
   sprockets-rails
   sqlite3
+  tailwindcss-rails
 
 BUNDLED WITH
    2.3.13

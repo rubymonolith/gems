@@ -12,3 +12,4 @@ gem "sprockets-rails"
 # gem "debug", ">= 1.0.0"
 
 gem "phlex-rails", "~> 2.1"
+gem "tailwindcss-rails", group: :development
