@@ -1,0 +1,23 @@
+{
+  "name": "gems",
+  "version": "1.0.0",
+  "description": "A quick way to spin up a [Monlithic Rails](https://rubymonolith.org) application. [Rocketship](https://rocketship.io/) uses Monolith when building new SaaS applications.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com//rubymonolith/gems.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "daisyui": "^5.3.8"
+  }
+}

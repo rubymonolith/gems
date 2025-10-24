@@ -44,14 +44,15 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run 
 
 ### Tailwind CSS Development
 
-The engine includes a pre-compiled Tailwind CSS file committed to the repo. When developing the gem:
+The engine includes a pre-compiled Tailwind CSS file with daisyUI committed to the repo. When developing the gem:
 
 ```bash
+npm install                     # Install daisyUI
 bin/build                       # Build CSS once
 rake monolith:tailwind:watch    # Watch and rebuild on changes
 ```
 
-The engine uses Tailwind v4 with CSS-based configuration in `app/assets/stylesheets/monolith/application.tailwind.css`. The compiled CSS is committed so users don't need Tailwind installed.
+The engine uses Tailwind v4 with CSS-based configuration and daisyUI for components and dark mode support. The compiled CSS is committed so users don't need Tailwind or npm installed.
 
 ### Releasing
 
