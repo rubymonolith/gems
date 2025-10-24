@@ -18,43 +18,9 @@ class Monolith::ApplicationController < ActionController::Base
   end
 
   # =======================
-  # Basic HTML View (no navigation)
-  # =======================
-  class BaseView < Phlex::HTML
-    include Phlex::Rails::Helpers::URLFor
-    include Phlex::Rails::Helpers::FormAuthenticityToken
-    include Phlex::Rails::Helpers::AssetPath
-    include Phlex::Rails::Layout
-    include Phlex::Rails::Helpers::TurboFrameTag
-
-    def around_template(&)
-      html do
-        head do
-          title { @title }
-          meta name: "viewport", content: "width=device-width,initial-scale=1"
-          meta charset: "utf-8"
-          meta name: "apple-mobile-web-app-capable", content: "yes"
-          meta name: "apple-mobile-web-app-status-bar-style", content: "black-translucent"
-          csp_meta_tag
-          csrf_meta_tags
-          stylesheet_link_tag "monolith/tailwind", data_turbo_track: "reload"
-          javascript_importmap_tags
-          render @opengraph
-        end
-
-        body(&)
-      end
-    end
-
-    def view_template
-      yield self if block_given?
-    end
-  end
-
-  # =======================
   # View with Navigation
   # =======================
-  class View < BaseView
+  class View < Monolith::Views::Layouts::Base
     def around_template
       super do
         div(class: "flex min-h-screen") do

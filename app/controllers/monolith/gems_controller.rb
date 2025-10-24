@@ -90,24 +90,24 @@ module Monolith
           h1(class: "text-2xl font-bold") { "Gems" }
           p(class: "text-sm") { "From your current Bundler context (Gemfile.lock)." }
 
-          div(class: "overflow-x-auto border") do
-            table(class: "min-w-full text-sm") do
+          div(class: "overflow-x-auto") do
+            table(class: "table") do
               thead do
                 tr do
                   %w[Gem Version Licenses Homepage RubyGems Description].each do |col|
-                    th(class: "px-3 py-2 text-left font-semibold") { col }
+                    th { col }
                   end
                 end
               end
               tbody do
                 @gems.sort.each do |g|
                   tr do
-                    td(class: "px-3 py-2") { nav_link g.name, controller: "/monolith/gems", action: :show, id: g.name }
-                    td(class: "px-3 py-2") { g.version }
-                    td(class: "px-3 py-2") { g.licenses.any? ? g.licenses.join(", ") : em { "—" } }
-                    td(class: "px-3 py-2") { ext_link g.homepage, "homepage" }
-                    td(class: "px-3 py-2") { ext_link g.rubygems_uri, "rubygems" }
-                    td(class: "px-3 py-2 max-w-md truncate") { g.summary.to_s.strip.empty? ? em { "—" } : g.summary }
+                    td { nav_link g.name, controller: "/monolith/gems", action: :show, id: g.name }
+                    td { g.version }
+                    td { g.licenses.any? ? g.licenses.join(", ") : em { "—" } }
+                    td { ext_link g.homepage, "homepage" }
+                    td { ext_link g.rubygems_uri, "rubygems" }
+                    td { g.summary.to_s.strip.empty? ? em { "—" } : g.summary }
                   end
                 end
               end
