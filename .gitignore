@@ -9,3 +9,4 @@
 /spec/dummy/storage/
 /spec/dummy/tmp/
 /node_modules/
+/app/assets/builds/monolith/tailwind.css
