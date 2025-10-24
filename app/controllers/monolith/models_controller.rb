@@ -153,27 +153,16 @@ module Monolith
           h1(class: "text-2xl font-bold") { "Models" }
           p(class: "text-sm") { "#{@models.size} ActiveRecord models in your application." }
 
-          div(class: "overflow-x-auto border") do
-            table(class: "min-w-full text-sm") do
-              thead do
-                tr do
-                  %w[Model Table Columns].each do |col|
-                    th(class: "px-3 py-2 text-left font-semibold") { col }
-                  end
-                end
-              end
-              tbody do
-                @models.each do |model|
-                  tr do
-                    td(class: "px-3 py-2") {
-                      nav_link model.name, controller: "/monolith/models", action: :show, id: model.to_param
-                    }
-                    td(class: "px-3 py-2") { code { model.table_name } }
-                    td(class: "px-3 py-2") { model.column_names.size.to_s }
-                  end
-                end
-              end
-            end
+          Table @models do
+            it.row("Model") {
+              nav_link it.name, controller: "/monolith/models", action: :show, id: it.to_param
+            }
+            it.row("Table") { |m|
+              code { m.table_name }
+            }
+            it.row("Columns") {
+              it.column_names.size.to_s
+            }
           end
         end
       end

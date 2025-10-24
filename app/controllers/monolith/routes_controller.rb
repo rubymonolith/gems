@@ -89,28 +89,19 @@ module Monolith
           h1(class: "text-2xl font-bold") { "Routes" }
           p(class: "text-sm") { "#{@routes.size} routes in your Rails application." }
 
-          div(class: "overflow-x-auto border") do
-            table(class: "min-w-full text-sm") do
-              thead do
-                tr do
-                  %w[Name Verb Path Controller#Action].each do |col|
-                    th(class: "px-3 py-2 text-left font-semibold") { col }
-                  end
-                end
-              end
-              tbody do
-                @routes.each do |route|
-                  tr do
-                    td(class: "px-3 py-2") {
-                      nav_link route.display_name, controller: "/monolith/routes", action: :show, id: route.to_param
-                    }
-                    td(class: "px-3 py-2") { code { route.verb } }
-                    td(class: "px-3 py-2") { code { route.path } }
-                    td(class: "px-3 py-2") { route.full_controller_action }
-                  end
-                end
-              end
-            end
+          Table @routes do
+            it.row("Name") {
+              nav_link it.display_name, controller: "/monolith/routes", action: :show, id: it.to_param
+            }
+            it.row("Verb") { |r|
+              code { r.verb }
+            }
+            it.row("Path") { |r|
+              code { r.path }
+            }
+            it.row("Controller#Action") {
+              it.full_controller_action
+            }
           end
         end
       end

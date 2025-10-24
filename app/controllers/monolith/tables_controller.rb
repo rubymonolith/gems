@@ -133,23 +133,10 @@ module Monolith
             end
           end
 
-          div(class: "overflow-x-auto border") do
-            table(class: "min-w-full text-sm") do
-              thead do
-                tr do
-                  @table.columns.each { |c| th(class: "px-3 py-2 text-left font-semibold") { c } }
-                end
-              end
-              tbody do
-                @rows.each do |row|
-                  tr do
-                    @table.columns.each do |c|
-                      td(class: "px-3 py-2 align-top whitespace-pre-wrap") { format_cell(row[c]) }
-                    end
-                  end
-                end
-              end
-            end
+          Table @table.columns do
+            it.row(col) {
+              format_cell(it[col])
+            }
           end
 
           div(class: "flex items-center gap-3") do

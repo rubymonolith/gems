@@ -82,6 +82,7 @@ module Monolith
     # =======================
     # Phlex views
     # =======================
+    #
     class Index < View
       attr_writer :gems
 
@@ -90,28 +91,25 @@ module Monolith
           h1(class: "text-2xl font-bold") { "Gems" }
           p(class: "text-sm") { "From your current Bundler context (Gemfile.lock)." }
 
-          div(class: "overflow-x-auto") do
-            table(class: "table") do
-              thead do
-                tr do
-                  %w[Gem Version Licenses Homepage RubyGems Description].each do |col|
-                    th { col }
-                  end
-                end
-              end
-              tbody do
-                @gems.sort.each do |g|
-                  tr do
-                    td { nav_link g.name, controller: "/monolith/gems", action: :show, id: g.name }
-                    td { g.version }
-                    td { g.licenses.any? ? g.licenses.join(", ") : em { "—" } }
-                    td { ext_link g.homepage, "homepage" }
-                    td { ext_link g.rubygems_uri, "rubygems" }
-                    td { g.summary.to_s.strip.empty? ? em { "—" } : g.summary }
-                  end
-                end
-              end
-            end
+          Table @gems do
+            it.row("Gem") {
+              nav_link it.name, controller: "/monolith/gems", action: :show, id: it.name
+            }
+            it.row("Version") {
+              it.version
+            }
+            it.row("Licenses") {
+              it.licenses.any? ? it.licenses.join(", ") : em { "—" }
+            }
+            it.row("Homepage") {
+              ext_link it.homepage, "homepage"
+            }
+            it.row("RubyGems") {
+              ext_link it.rubygems_uri, "rubygems"
+            }
+            it.row("Description") {
+              it.summary.to_s.strip.empty? ? em { "—" } : it.summary
+            }
           end
         end
       end

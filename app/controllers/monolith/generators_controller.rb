@@ -172,27 +172,16 @@ module Monolith
           h1(class: "text-2xl font-bold") { "Generators" }
           p(class: "text-sm") { "#{@generators.size} Rails generators available." }
 
-          div(class: "overflow-x-auto border") do
-            table(class: "min-w-full text-sm") do
-              thead do
-                tr do
-                  %w[Generator Namespace Description].each do |col|
-                    th(class: "px-3 py-2 text-left font-semibold") { col }
-                  end
-                end
-              end
-              tbody do
-                @generators.each do |generator|
-                  tr do
-                    td(class: "px-3 py-2") {
-                      nav_link generator.name, controller: "/monolith/generators", action: :show, id: generator.to_param
-                    }
-                    td(class: "px-3 py-2") { code { generator.namespace } }
-                    td(class: "px-3 py-2") { generator.description || em { "—" } }
-                  end
-                end
-              end
-            end
+          Table @generators do
+            it.row("Generator") {
+              nav_link it.name, controller: "/monolith/generators", action: :show, id: it.to_param
+            }
+            it.row("Namespace") { |g|
+              code { g.namespace }
+            }
+            it.row("Description") {
+              it.description || em { "—" }
+            }
           end
         end
       end
