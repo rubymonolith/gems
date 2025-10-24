@@ -148,7 +148,7 @@ module Monolith
     class Index < View
       attr_writer :models
 
-      def render_content
+      def view_template
         div(class: "p-6 space-y-4") do
           h1(class: "text-2xl font-bold") { "Models" }
           p(class: "text-sm") { "#{@models.size} ActiveRecord models in your application." }
@@ -182,7 +182,7 @@ module Monolith
     class Show < View
       attr_writer :model
 
-      def render_content
+      def view_template
         m = @model
 
         div(class: "p-6 space-y-6") do

@@ -106,7 +106,7 @@ module Monolith
     class Index < View
       attr_writer :tables
 
-      def render_content
+      def view_template
         div(class: "p-6 space-y-4") do
           h1(class: "text-2xl font-bold") { "Tables" }
           ul(class: "list-disc pl-6 space-y-1") do
@@ -121,7 +121,7 @@ module Monolith
     class Show < View
       attr_writer :table, :rows, :page, :per_page, :total
 
-      def render_content
+      def view_template
         div(class: "p-6 space-y-4") do
           h1(class: "text-2xl font-bold") { @table.name }
           p do

@@ -85,7 +85,7 @@ module Monolith
     class Index < View
       attr_writer :gems
 
-      def render_content
+      def view_template
         div(class: "p-6 space-y-4") do
           h1(class: "text-2xl font-bold") { "Gems" }
           p(class: "text-sm") { "From your current Bundler context (Gemfile.lock)." }
@@ -120,7 +120,7 @@ module Monolith
     class Show < View
       attr_writer :gem_info
 
-      def render_content
+      def view_template
         g = @gem_info
 
         div(class: "p-6 space-y-4") do

@@ -47,11 +47,7 @@ class Monolith::ApplicationController < ActionController::Base
     end
 
     def view_template
-      render_content
-    end
-
-    def render_content
-      # Override in subclasses
+      yield self if block_given?
     end
   end
 
@@ -59,11 +55,13 @@ class Monolith::ApplicationController < ActionController::Base
   # View with Navigation
   # =======================
   class View < BaseView
-    def view_template
-      div(class: "min-h-screen") do
-        render_nav
-        div(class: "container mx-auto") do
-          render_content
+    def around_template
+      super do
+        div(class: "min-h-screen") do
+          render_nav
+          div(class: "container mx-auto") do
+            yield self if block_given?
+          end
         end
       end
     end

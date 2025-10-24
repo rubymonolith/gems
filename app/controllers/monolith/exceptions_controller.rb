@@ -180,7 +180,7 @@ module Monolith
     class Show < View
       attr_writer :exception
 
-      def render_content
+      def view_template
         e = @exception
 
         # Full-screen dark background with code editor aesthetic

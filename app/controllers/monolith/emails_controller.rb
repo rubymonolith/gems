@@ -12,7 +12,7 @@ module Monolith
     class Index < View
       attr_writer :emails
 
-      def render_content
+      def view_template
         div(class: "p-6 space-y-4") do
           h1(class: "text-2xl font-bold") { "Emails" }
           ul(class: "list-disc pl-6 space-y-1") {
@@ -33,7 +33,7 @@ module Monolith
     class Show < View
       attr_writer :email
 
-      def render_content
+      def view_template
         div(class: "p-6 space-y-4") do
           h1(class: "text-2xl font-bold") { @email.to_s }
           dl(class: "grid grid-cols-1 gap-y-2") {

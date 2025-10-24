@@ -167,7 +167,7 @@ module Monolith
     class Index < View
       attr_writer :generators
 
-      def render_content
+      def view_template
         div(class: "p-6 space-y-4") do
           h1(class: "text-2xl font-bold") { "Generators" }
           p(class: "text-sm") { "#{@generators.size} Rails generators available." }
@@ -201,7 +201,7 @@ module Monolith
     class Show < View
       attr_writer :generator
 
-      def render_content
+      def view_template
         g = @generator
 
         div(class: "p-6 space-y-6") do
@@ -347,7 +347,7 @@ module Monolith
     class Create < View
       attr_writer :generator, :result, :args, :options
 
-      def render_content
+      def view_template
         g = @generator
         r = @result
 

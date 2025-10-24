@@ -84,7 +84,7 @@ module Monolith
     class Index < View
       attr_writer :routes
 
-      def render_content
+      def view_template
         div(class: "p-6 space-y-4") do
           h1(class: "text-2xl font-bold") { "Routes" }
           p(class: "text-sm") { "#{@routes.size} routes in your Rails application." }
@@ -119,7 +119,7 @@ module Monolith
     class Show < View
       attr_writer :route
 
-      def render_content
+      def view_template
         r = @route
 
         div(class: "p-6 space-y-4") do
