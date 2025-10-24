@@ -21,6 +21,7 @@ class Monolith::ApplicationController < ActionController::Base
   class BaseView < Phlex::HTML
     include Phlex::Rails::Helpers::URLFor
     include Phlex::Rails::Helpers::FormAuthenticityToken
+    include Phlex::Rails::Helpers::AssetPath
     include Phlex::Rails::Layout
     include Phlex::Rails::Helpers::TurboFrameTag
 
@@ -69,7 +70,9 @@ class Monolith::ApplicationController < ActionController::Base
       nav(class: "border-b mb-6") do
         div(class: "container mx-auto px-6 py-4") do
           div(class: "flex items-center gap-6") do
-            span(class: "font-bold text-lg") { "Monolith" }
+            a(href: url_for(controller: "/monolith/emails", action: :index), class: "flex items-center gap-2") do
+              img(src: asset_path("monolith/logo.svg"), alt: "Monolith", class: "h-8")
+            end
             nav_link "Emails", controller: "/monolith/emails", action: :index
             nav_link "Tables", controller: "/monolith/tables", action: :index
             nav_link "Gems", controller: "/monolith/gems", action: :index
