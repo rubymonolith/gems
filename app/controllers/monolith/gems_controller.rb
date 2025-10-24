@@ -18,7 +18,7 @@ module Monolith
     class GemInfo
       include Comparable
       attr_reader :name, :version, :summary, :licenses, :homepage, :source_code_uri,
-                  :bug_tracker_uri, :changelog_uri, :rubygems_uri, :path
+                  :bug_tracker_uri, :changelog_uri, :rubygems_uri, :path, :source_type, :source_info
 
       def self.all
         # Bundler.load.specs → Gem::Specification for everything in the bundle
@@ -48,6 +48,9 @@ module Monolith
         bugs     = meta["bug_tracker_uri"]
         change   = meta["changelog_uri"]
 
+        # Detect gem source
+        source_type, source_info = detect_source(spec)
+
         new(
           name:           spec.name,
           version:        spec.version.to_s,
@@ -58,14 +61,16 @@ module Monolith
           bug_tracker_uri: bugs,
           changelog_uri:   change,
           rubygems_uri:   "https://rubygems.org/gems/#{spec.name}",
-          path:           spec.full_gem_path
+          path:           spec.full_gem_path,
+          source_type:    source_type,
+          source_info:    source_info
         )
       end
 
-      def initialize(name:, version:, summary:, licenses:, homepage:, source_code_uri:, bug_tracker_uri:, changelog_uri:, rubygems_uri:, path:)
+      def initialize(name:, version:, summary:, licenses:, homepage:, source_code_uri:, bug_tracker_uri:, changelog_uri:, rubygems_uri:, path:, source_type:, source_info:)
         @name, @version, @summary, @licenses, @homepage, @source_code_uri, @bug_tracker_uri,
-          @changelog_uri, @rubygems_uri, @path =
-          name, version, summary, licenses, homepage, source_code_uri, bug_tracker_uri, changelog_uri, rubygems_uri, path
+          @changelog_uri, @rubygems_uri, @path, @source_type, @source_info =
+          name, version, summary, licenses, homepage, source_code_uri, bug_tracker_uri, changelog_uri, rubygems_uri, path, source_type, source_info
       end
 
       def to_param = name
@@ -76,6 +81,76 @@ module Monolith
       def self.presence(str)
         s = str.to_s.strip
         s.empty? ? nil : s
+      end
+
+      def self.detect_source(spec)
+        # Check Bundler's locked specs to find the source
+        locked_spec = Bundler.locked_gems&.specs&.find { |s| s.name == spec.name }
+
+        if locked_spec && locked_spec.source
+          case locked_spec.source
+          when Bundler::Source::Rubygems
+            [:rubygems, "https://rubygems.org/gems/#{spec.name}"]
+          when Bundler::Source::Git
+            git_uri = locked_spec.source.uri
+            git_ref = locked_spec.source.ref || locked_spec.source.branch || locked_spec.source.revision
+            if git_uri.to_s =~ /github\.com/
+              [:github, "#{git_uri} @ #{git_ref}"]
+            else
+              [:git, "#{git_uri} @ #{git_ref}"]
+            end
+          when Bundler::Source::Path
+            [:path, locked_spec.source.path.to_s]
+          else
+            [:unknown, locked_spec.source.class.name]
+          end
+        else
+          # Fallback: check if path looks like it's from RubyGems cache
+          if spec.full_gem_path.to_s.include?('/gems/')
+            [:rubygems, "https://rubygems.org/gems/#{spec.name}"]
+          elsif spec.full_gem_path.to_s.include?('/bundler/gems/')
+            [:git, spec.full_gem_path.to_s]
+          else
+            [:path, spec.full_gem_path.to_s]
+          end
+        end
+      rescue => e
+        [:unknown, "Error: #{e.message}"]
+      end
+    end
+
+    class View < View
+
+      protected
+
+      def gem_origin_link(g)
+        case g.source_type
+        when :rubygems
+          ext_link g.rubygems_uri
+        when :github
+          git_uri = g.source_info.split(' @ ').first
+          git_ref = g.source_info.split(' @ ').last
+          # Convert GitHub URI to branch/commit URL
+          normalized_uri = git_uri.to_s.sub(/\.git$/, '')
+          branch_url = "#{normalized_uri}/tree/#{git_ref}"
+          ext_link branch_url
+        when :git
+          code { g.source_info }
+        when :path
+          if defined?(ActiveSupport::Editor) && (editor = ActiveSupport::Editor.current)
+            # Try to link to the path in the editor
+            absolute_path = File.expand_path(g.source_info)
+            if absolute_path && File.exist?(absolute_path)
+              ext_link editor.url_for(absolute_path, 1), "Local Path: #{g.source_info}"
+            else
+              code { g.source_info }
+            end
+          else
+            code { g.source_info }
+          end
+        else
+          code { "#{g.source_type}: #{g.source_info}" }
+        end
       end
     end
 
@@ -101,11 +176,8 @@ module Monolith
             it.row("Licenses") {
               it.licenses.any? ? it.licenses.join(", ") : em { "—" }
             }
-            it.row("Homepage") {
-              ext_link it.homepage, "homepage"
-            }
-            it.row("RubyGems") {
-              ext_link it.rubygems_uri, "rubygems"
+            it.row("Origin") {
+              gem_origin_link it
             }
             it.row("Description") {
               it.summary.to_s.strip.empty? ? em { "—" } : it.summary
@@ -141,8 +213,10 @@ module Monolith
             dt(class: "font-semibold") { "Changelog" }
             dd { ext_link g.changelog_uri, g.changelog_uri&.sub(%r{\Ahttps?://}, "") }
 
-            dt(class: "font-semibold") { "RubyGems" }
-            dd { ext_link g.rubygems_uri, g.rubygems_uri&.sub(%r{\Ahttps?://}, "") }
+            dt(class: "font-semibold") { "Origin" }
+            dd {
+              gem_origin_link g
+            }
 
             dt(class: "font-semibold") { "Path" }
             dd { code { g.path } }

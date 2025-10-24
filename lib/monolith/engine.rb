@@ -1,3 +1,5 @@
+require "phlex-rails"
+
 module Monolith
   module Views
   end
