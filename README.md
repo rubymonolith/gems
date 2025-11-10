@@ -1,6 +1,6 @@
 # Monolith
 
-A quick way to spin up a [Monlithic Rails](https://rubymonolith.org) application. [Rocketship](https://rocketship.io/) uses Monolith when building new SaaS applications.
+A quick way to spin up a [Monolithic Rails](https://rubymonolith.org) application. [Rocketship](https://rocketship.io/) uses Monolith when building new SaaS applications.
 
 Monolith includes a Rails engine with development tools for inspecting your application:
 - Email previews
