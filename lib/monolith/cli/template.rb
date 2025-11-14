@@ -38,6 +38,13 @@ after_bundle do
   run "npm init -y"
   run "npm install daisyui@latest @tailwindcss/typography@latest"
 
+  # Add node_modules to .gitignore
+  append_to_file '.gitignore', <<~GITIGNORE
+
+    # Node modules
+    ./node_modules
+  GITIGNORE
+
   # Add sources and plugins to Tailwind CSS
   append_to_file 'app/assets/tailwind/application.css', <<~CSS
 
