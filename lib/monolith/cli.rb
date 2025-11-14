@@ -5,12 +5,12 @@ module Monolith
   class CLI < Thor
     include Thor::Actions
 
-    DEFAULT_PROJECT_NAME = "server".freeze
+    DEFAULT_PATH = "server".freeze
 
     desc "new [PROJECT_NAME]", "create a new Rails monolith"
-    def new(project_name = DEFAULT_PROJECT_NAME)
+    def new(path = DEFAULT_PATH)
       template_path = File.join File.expand_path(__dir__), "cli/template.rb"
-      run "rails new #{project_name} --template #{template_path} --database postgresql --css tailwind"
+      run "rails new #{path} --template #{template_path} --css tailwind --skip-test --skip-system-test --skip-solid"
     end
 
     desc "version", "prints version of monolith"
