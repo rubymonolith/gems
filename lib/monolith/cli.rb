@@ -1,4 +1,7 @@
 require "thor"
+require "foreman"
+require "foreman/engine"
+require "foreman/engine/cli"
 require "monolith/version"
 
 module Monolith
@@ -18,9 +21,20 @@ module Monolith
       puts Monolith::VERSION
     end
 
-    desc "server", "Runs a monolith application"
-    def server
-      puts Monolith::VERSION
+    desc "dev", "Runs a monolith application via Procfile.dev"
+    def dev
+      procfile = "Procfile.dev"
+
+      unless File.exist?(procfile)
+        puts "Error: #{procfile} not found in current directory"
+        exit 1
+      end
+
+      engine = Foreman::Engine::CLI.new(procfile: procfile)
+      engine.load_procfile(procfile)
+      engine.start
+    rescue Interrupt
+      puts "\nShutting down..."
     end
   end
 end
