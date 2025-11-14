@@ -57,6 +57,12 @@ after_bundle do
     @plugin "@tailwindcss/typography";
     @plugin "daisyui";
   CSS
+
+  # Add Superview and Superform includes to ApplicationController
+  inject_into_class "app/controllers/application_controller.rb", "ApplicationController", <<~RUBY
+    include Superview::Actions
+    include Superform::Rails::StrongParameters
+  RUBY
 end
 
 # File-based content management system for static pages and markdown content
