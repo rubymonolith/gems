@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rubymonolith (0.1.6)
+    rubymonolith (0.1.7)
       foreman (~> 0.87)
       phlex-rails (~> 2.0)
       superview (~> 1.0)
