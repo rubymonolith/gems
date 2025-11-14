@@ -42,7 +42,7 @@ after_bundle do
   append_to_file '.gitignore', <<~GITIGNORE
 
     # Node modules
-    ./node_modules
+    /node_modules/*
   GITIGNORE
 
   # Add sources and plugins to Tailwind CSS
