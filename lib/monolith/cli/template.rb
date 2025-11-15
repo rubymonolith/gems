@@ -81,13 +81,16 @@ after_bundle do
   generate "rspec:install"
 end
 
-# Patch the development environment configuration file.
+# Configure logging to stdout so the logs are visible in the console via `monolith dev`
 after_bundle do
   # Configure development environment to log to stdout
   inject_into_file "config/environments/development.rb", after: "Rails.application.configure do\n" do
     <<~RUBY
-      # Send logs to stdout
-      config.logger = ActiveSupport::Logger.new(STDOUT)
+      # Send logs directly to stdout
+      $stdout.sync = true
+      config.logger = ActiveSupport::TaggedLogging.new(
+        ActiveSupport::Logger.new($stdout)
+      )
 
     RUBY
   end
